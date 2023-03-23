@@ -1,0 +1,44 @@
+﻿@using CQRS.Application.Features.Commands.Orders.EditOrder
+@model EditOrderCommandRequest
+
+@{
+    ViewData["Title"] = "EditOrder";
+}
+
+<h1>EditOrder</h1>
+
+<h4>OrderPostViewModel</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="EditOrder">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Number" class="control-label"></label>
+                <input class="form-select-sm" asp-for="Number" class="form-control" />
+                <span asp-validation-for="Number" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProviderId" class="control-label"></label>
+                <select class="form-select-sm" asp-for="ProviderId" asp-items="@Model.Providers"></select>
+                <span asp-validation-for="ProviderId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OrderItemId" class="control-label"></label>
+                <select class="form-select-sm" asp-for="OrderItemId" asp-items="@Model.OrderItems"></select>
+                <span asp-validation-for="OrderItemId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

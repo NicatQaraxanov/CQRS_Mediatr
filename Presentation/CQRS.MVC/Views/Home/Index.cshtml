@@ -1,0 +1,54 @@
+﻿@using CQRS.Domain.Entities
+@model List<Order>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="AddOrder">Create New</a>
+</p>
+<br />
+
+<label for="startDate">Start Date:</label>
+<input type="date" id="startDate" name="startDate" style="display: inline-block">
+<label for="endDate">End Date:</label>
+<input type="date" id="endDate" name="endDate" style="display: inline-block">
+<button id="Filter" style="display: inline-block">Filter by date</button>
+
+<div id="orders">
+    <partial name="_OrderPartial" model="@Model" />
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function() {
+      var today = new Date().toISOString().substr(0, 10);
+      $('#endDate').val(today);
+
+      var oneMonthAgo = new Date();
+      oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
+      var startDate = oneMonthAgo.toISOString().substr(0, 10);
+      $('#startDate').val(startDate);
+
+      $('#Filter').click(function(event) {
+
+        var formData = {
+          'startDate': $('#startDate').val(),
+          'endDate': $('#endDate').val()
+        };
+
+        $.ajax({
+              type: "GET",
+              url: 'Home/FilterByDate/',
+              data: formData,
+              success: function(res) { 
+                  $("#orders").html(res); 
+              }
+          });
+
+      });
+    });
+</script>
